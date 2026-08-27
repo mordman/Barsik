@@ -1,4 +1,4 @@
-import { W, H, TW, TH } from '../config/constants.js';
+import { W, H, TW, TH } from '../core/constants.js';
 
 export class Camera {
   constructor(canvas) {

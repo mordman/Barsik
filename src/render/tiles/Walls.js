@@ -1,4 +1,4 @@
-import { IN, WALL_H, LOW_H } from '../../config/constants.js';
+import { IN, WALL_H, LOW_H } from '../../core/constants.js';
 import { iso } from '../../world/Iso.js';
 import { wallQuad } from '../helpers.js';
 

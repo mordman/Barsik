@@ -1,4 +1,4 @@
-import { TW, TH } from '../config/constants.js';
+import { TW, TH } from '../core/constants.js';
 
 export const iso = (x, y) => ({ x: (x - y) * TW / 2, y: (x + y) * TH / 2 });
 

@@ -1,4 +1,4 @@
-import { W } from '../config/constants.js';
+import { W } from '../core/constants.js';
 
 export function findPath(map, sx, sy, gx, gy) {
   if (!map.walkable(gx, gy)) return null;

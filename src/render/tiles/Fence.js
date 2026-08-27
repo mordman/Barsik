@@ -1,4 +1,4 @@
-import { W, H } from '../../config/constants.js';
+import { W, H } from '../../core/constants.js';
 import { iso } from '../../world/Iso.js';
 
 function drawFencePost(g, x, y) {

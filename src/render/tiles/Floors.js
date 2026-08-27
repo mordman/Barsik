@@ -1,4 +1,4 @@
-import { IN } from '../../config/constants.js';
+import { IN } from '../../core/constants.js';
 import { PATH_TILES } from '../../config/map.js';
 import { iso } from '../../world/Iso.js';
 import { hsh, lerp } from '../../core/utils.js';

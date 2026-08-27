@@ -1,4 +1,4 @@
-import { W, H, IN } from '../config/constants.js';
+import { W, H, IN } from '../core/constants.js';
 import { FURN_BLOCK, TREES, DOOR } from '../config/map.js';
 import { TK } from '../core/utils.js';
 

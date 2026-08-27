@@ -1,8 +1,8 @@
 import { screenToWorld } from '../world/Iso.js';
 
 export class InputManager {
-  constructor(bus, canvas, camera) {
-    this.bus = bus; this.canvas = canvas; this.camera = camera;this.state = state;
+  constructor(bus, canvas, camera, state) {
+    this.bus = bus; this.canvas = canvas; this.camera = camera; this.state = state;
     this.keys = {};
     addEventListener('keydown', e => this._down(e));
     addEventListener('keyup',   e => { this.keys[e.code] = false; });
@@ -11,7 +11,7 @@ export class InputManager {
   }
 
   _down(e) {
-    f (!this.state.meta.started || this.state.meta.paused) return;
+    if (!this.state.meta.started || this.state.meta.paused) return;
     if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)) e.preventDefault();
     this.keys[e.code] = true;
     if (e.code === 'KeyM')  this.bus.emit('input:meow');      // обработчики появятся в М4/М6
@@ -19,7 +19,7 @@ export class InputManager {
     if (e.code === 'Space') this.bus.emit('input:pet');
   }
   _pointer(e) {
-    f (!this.state.meta.started || this.state.meta.paused) return;
+    if (!this.state.meta.started || this.state.meta.paused) return;
     const r = this.canvas.getBoundingClientRect();
     const wx = screenToWorld(e.clientX - r.left, e.clientY - r.top, this.camera.view);
     this.bus.emit('input:pointer', { wx: wx.x, wy: wx.y, sx: e.clientX - r.left, sy: e.clientY - r.top });

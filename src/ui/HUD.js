@@ -1,7 +1,7 @@
 import { NEEDS, NEED_ORDER } from '../config/needs.js';
 import { moodEmoji } from '../systems/mood.js';
 import { clockLabel } from '../world/DayCycle.js';
-import { IN } from '../config/constants.js';
+import { IN } from '../core/constants.js';
 
 export class HUD {
   constructor(state, bus) {

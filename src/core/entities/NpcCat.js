@@ -1,4 +1,4 @@
-import { IN } from '../core/constants.js';
+import { IN } from '../constants.js';
 
 const LINES = ['Мяу.', 'Рыбу не видел?', 'Хвост мой.', 'Опять этот забор…', 'Мрр.'];
 

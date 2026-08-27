@@ -1,7 +1,7 @@
-import { iso } from '../world/Iso.js';
-import { findPath } from '../world/Pathfinding.js';
-import { INTERACTS, APPROACH } from '../config/interacts.js';
-import { clamp } from '../core/utils.js';
+import { iso } from '../../world/Iso.js';
+import { findPath } from '../../world/Pathfinding.js';
+import { INTERACTS, APPROACH } from '../../config/interacts.js';
+import { clamp } from '../utils.js';
 
 const THOUGHTS = [
   'Погладь меня… или не надо.', 'А что там за окном?', 'Время вкусняшек?',

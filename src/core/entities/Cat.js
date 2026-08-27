@@ -1,4 +1,4 @@
-import { SPEED } from '../core/constants.js';
+import { SPEED } from '../constants.js';
 
 export class Cat {
   constructor(state, map, bus) {

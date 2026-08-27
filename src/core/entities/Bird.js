@@ -1,4 +1,4 @@
-import { BIRD_INTERACT } from '../config/interacts.js';
+import { BIRD_INTERACT } from '../../config/interacts.js';
 
 export class Bird {
   constructor(state, bus) { this.state = state; this.bus = bus; }

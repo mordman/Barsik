@@ -26,6 +26,8 @@ canvas{position:fixed;inset:0;display:block}
 .need.low .lbl{color:#ff8d7a}
 @keyframes lowPulse{0%,100%{opacity:1}50%{opacity:.45}}
 #hudRight{position:fixed;top:14px;right:14px;display:flex;gap:8px;z-index:3}
+#minimap{position:fixed;left:14px;bottom:14px;width:220px;height:160px;padding:5px;background:rgba(23,30,22,.92);
+  border:2px solid rgba(244,234,215,.2);border-radius:12px;image-rendering:pixelated;z-index:3;box-shadow:0 10px 28px rgba(0,0,0,.3)}
 .chip{padding:8px 13px;font-family:'Unbounded';font-weight:500;font-size:12.5px;border-radius:12px;
   background:rgba(23,30,22,.9);border:2px solid rgba(244,234,215,.14)}
 /* тосты */

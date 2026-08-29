@@ -33,7 +33,7 @@ map.addBlocked(13, 8);
 buildApproach(map);
 
 const canvas = document.getElementById('game');
-const camera = new Camera(canvas);
+const camera = new Camera(canvas, state);
 
 const input     = new InputManager(bus, canvas, camera, state);
 const audio     = new AudioManager(bus);
@@ -50,7 +50,7 @@ const worldSys  = new WorldSystem(state, bus);
 const interact  = new InteractionSystem(state, bus, actions);
 
 const toasts   = new Toasts(bus);
-const hud      = new HUD(state, bus);
+const hud      = new HUD(state, bus, map);
 const prompt   = new Prompt(state);
 const start    = new StartScreen(state, bus);
 const pauseOv  = new PauseOverlay(state, bus);
@@ -96,6 +96,7 @@ new GameLoop({
     cat.update(dt, input);
   },
   render() {
+    camera.follow();
     renderer.render();
     const now = performance.now();
     hud.sync(now);

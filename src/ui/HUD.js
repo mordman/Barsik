@@ -1,11 +1,12 @@
 import { NEEDS, NEED_ORDER } from '../config/needs.js';
 import { moodEmoji } from '../systems/mood.js';
 import { clockLabel } from '../world/DayCycle.js';
-import { IN } from '../core/constants.js';
+import { IN, W, H } from '../core/constants.js';
+import { HOUSES, ROADS } from '../config/map.js';
 
 export class HUD {
-  constructor(state, bus) {
-    this.state = state; this.last = 0;
+  constructor(state, bus, map) {
+    this.state = state; this.map = map; this.last = 0;
 
     const panel = document.createElement('div');
     panel.id = 'hudPanel';
@@ -37,6 +38,11 @@ export class HUD {
       <button class="round" id="sndBtn" title="Звук">🔊</button>`;
     document.body.appendChild(right);
 
+    const mini = document.createElement('canvas');
+    mini.id = 'minimap'; mini.width = W * 6; mini.height = H * 6;
+    mini.title = 'Миникарта'; document.body.appendChild(mini);
+    this.mini = mini; this.miniCtx = mini.getContext('2d');
+
     right.querySelector('#pauseBtn').onclick = () => bus.emit('ui:togglePause');
     let sndOn = true;
     right.querySelector('#sndBtn').onclick = e => {
@@ -50,6 +56,20 @@ export class HUD {
     this.clockEl = right.querySelector('#clockChip');
     this.locEl   = right.querySelector('#locChip');
     this.bflyEl  = right.querySelector('#bflyChip');
+  }
+
+  drawMinimap() {
+    const g = this.miniCtx, scale = 6;
+    g.clearRect(0, 0, W * scale, H * scale);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const key = `${x},${y}`;
+      g.fillStyle = !this.map.walkable(x, y) ? '#463d36' : ROADS.has(key) ? '#b6a47e' : '#50734d';
+      g.fillRect(x * scale, y * scale, scale, scale);
+    }
+    g.strokeStyle = '#d6bd82'; g.lineWidth = 1;
+    for (const h of HOUSES) g.strokeRect(h.x * scale + .5, h.y * scale + .5, h.w * scale - 1, h.h * scale - 1);
+    const c = this.state.cat;
+    g.fillStyle = '#ff7658'; g.beginPath(); g.arc(c.x * scale, c.y * scale, 3, 0, Math.PI * 2); g.fill();
   }
 
   sync(now) {
@@ -67,5 +87,6 @@ export class HUD {
     const c = s.cat;
     const inside = c.x >= IN.x0 && c.x <= IN.x1 + 1 && c.y >= IN.y0 && c.y <= IN.y1 + 1;
     this.locEl.textContent = inside ? '🏠 дома' : '🌳 в саду';
+    this.drawMinimap();
   }
 }

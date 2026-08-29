@@ -39,11 +39,19 @@ export class Cat {
         const st = Math.min(SPEED * dt, d);
         
         const mx = dx / d * st, my = dy / d * st;
+        const beforeX = c.x, beforeY = c.y;
         if (this.map.canStand(c.x + mx, c.y)) c.x += mx;
         if (this.map.canStand(c.x, c.y + my)) c.y += my;
+        if (c.x === beforeX && c.y === beforeY) c.pathStall = (c.pathStall || 0) + dt;
+        else c.pathStall = 0;
+        if (c.pathStall > .3) {
+          c.path = null;
+          c.pathStall = 0;
+          this.bus.emit('cat:stuck', c.pathTarget);
+        }
         c.pose = 'walk'; c.phase += dt * 10;
       }
-      if (c.path.length === 0) this.bus.emit('cat:arrived');
+      if (c.path && c.path.length === 0) this.bus.emit('cat:arrived');
       this.moving = true;
     } else {
       c.pose = c.idlePose || 'stand';

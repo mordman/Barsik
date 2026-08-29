@@ -16,6 +16,9 @@ export class CatBrain {
     bus.on('input:pointer', e => this.onPointer(e));
     bus.on('input:pet', () => this.pet());
     bus.on('cat:arrived', () => this.onArrived());
+    bus.on('cat:stuck', target => {
+      if (target) this.walkTo(target.x, target.y, this.state.cat.pending);
+    });
     bus.on('input:meow', () => this.meow());
   }
 
@@ -62,7 +65,10 @@ export class CatBrain {
   walkTo(tx, ty, pendingKey) {
     const c = this.state.cat;
     const p = findPath(this.map, Math.floor(c.x), Math.floor(c.y), tx, ty);
-    if (p && p.length) { c.path = p; c.pending = pendingKey; c.idlePose = null; }
+    if (p && p.length) {
+      c.path = p; c.pathTarget = { x: tx, y: ty }; c.pathStall = 0;
+      c.pending = pendingKey; c.idlePose = null;
+    }
     else this.say('Мяу? Не пройти 😾', 1.4);
   }
 
@@ -92,7 +98,8 @@ export class CatBrain {
       if (!this.map.walkable(tx, ty)) continue;
       const p = findPath(this.map, Math.floor(c.x), Math.floor(c.y), tx, ty);
       if (p && p.length > 2) {
-        c.path = p; c.state = 'zoom'; c.pending = null;
+        c.path = p; c.pathTarget = { x: tx, y: ty }; c.pathStall = 0;
+        c.state = 'zoom'; c.pending = null;
         this.bus.emit('toast', { msg: 'ЗУМИЗ!! 💨' });
         return;
       }

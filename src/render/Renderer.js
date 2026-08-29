@@ -11,6 +11,7 @@ import { drawBubble } from './fx/Bubbles.js';
 import { drawPlumbob } from './fx/Plumbob.js';
 import { drawLights } from './fx/Lighting.js';
 import { drawParticles } from './fx/ParticlesFx.js';
+import { collectLandmarkDrawables } from './Landmarks.js';
 
 export class Renderer {
   constructor(state, camera, particles) {
@@ -38,6 +39,7 @@ export class Renderer {
       ...collectFenceDrawables(ctx),
       ...collectFloraDrawables(ctx, s),
       ...collectFurnitureDrawables(ctx, s),
+      ...collectLandmarkDrawables(ctx),
       { d: cat.x + cat.y + .01, f: () => drawCat(ctx, cs.x, cs.y, catOpts(s)) },
       { d: npc.x + npc.y, f: () => drawCat(ctx, ns.x, ns.y,
           { pal: PAL.gray, face: npc.face, pose: 'sit', phase: 0, t: s.time.t, squint: false, hop: 0 }) },

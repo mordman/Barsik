@@ -1,4 +1,6 @@
-export const DOOR = { x: 7, y: 9 };
+import { W, H } from '../core/constants.js';
+
+export const DOOR = { x: 10, y: 15 };
 
 // мебель и её «физические» тайлы
 export const FURNITURE = [
@@ -27,3 +29,17 @@ export const FLOWERS = [
 ];
 
 export const PATH_TILES = new Set(['7,10','7,11']);
+
+// Основные дороги и соседние дома на общей карте.
+export const ROADS = new Set();
+for (let y = 15; y < H - 1; y++) ROADS.add(`10,${y}`);
+for (let x = 10; x < W - 10; x++) ROADS.add(`${x},110`);
+for (let x = 10; x < W - 10; x++) ROADS.add(`${x},70`);
+for (let y = 15; y < 180; y++) ROADS.add(`150,${y}`);
+
+export const HOUSES = [
+  { x: 70, y: 28, w: 14, h: 10, color: '#b96d55', rooms: 3 },
+  { x: 205, y: 142, w: 16, h: 11, color: '#6589a6', entryTop: true, rooms: 3 },
+  { x: 34, y: 154, w: 14, h: 10, color: '#b58a52', rooms: 2 },
+  { x: 226, y: 38, w: 15, h: 11, color: '#7b9b68', rooms: 3 },
+];

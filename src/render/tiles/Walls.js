@@ -1,4 +1,5 @@
 import { IN, WALL_H, LOW_H } from '../../core/constants.js';
+import { DOOR } from '../../config/map.js';
 import { iso } from '../../world/Iso.js';
 import { wallQuad } from '../helpers.js';
 
@@ -92,9 +93,28 @@ export function collectWallDrawables(g, state, night = 0) {
     { d: 2.5, f: () => drawNorthWall(g, night) },
     { d: 3.5, f: () => drawWestWall(g) },
   ];
-  for (const x of [4, 5, 6, 8, 9, 10]) D.push({ d: x + 9.8, f: () => drawStubH(g, x) });
-  for (let y = 3; y <= 8; y++) D.push({ d: y + 11.05, f: () => drawStubV(g, y) });
-  D.push({ d: 16.9, f: () => drawDoorPost(g, 7, true) });
-  D.push({ d: 17.9, f: () => drawDoorPost(g, 8, false) });
+  for (let x = IN.x0; x <= IN.x1; x++) if (x !== DOOR.x)
+    D.push({ d: x + 9.8, f: () => drawStubH(g, x) });
+  for (let y = IN.y0; y <= IN.y1; y++) D.push({ d: y + 11.05, f: () => drawStubV(g, y) });
+  D.push({ d: 16.9, f: () => drawDoorPost(g, DOOR.x, true) });
+  D.push({ d: 17.9, f: () => drawDoorPost(g, DOOR.x + 1, false) });
+  // Лёгкие перегородки формируют кухню, гостиную и спальню; проёмы совпадают с картой.
+  for (let y = IN.y0; y <= IN.y1; y++) if (y !== 7 && y !== 14)
+    D.push({ d: 12 + y, f: () => drawRoomWallV(g, 10, y) });
+  for (let x = IN.x0; x <= IN.x1; x++) if (x !== 8 && x !== 12)
+    D.push({ d: 20 + x, f: () => drawRoomWallH(g, x, 9) });
   return D;
+}
+
+function drawRoomWallV(g, x, y) {
+  const a = iso(x, y), b = iso(x, y + 1);
+  g.fillStyle = '#b79a70'; g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y);
+  g.lineTo(b.x, b.y - 8); g.lineTo(a.x, a.y - 8); g.closePath(); g.fill();
+  g.fillStyle = '#e4c995'; g.fillRect((a.x + b.x) / 2 - 2, (a.y + b.y) / 2 - 11, 4, 3);
+}
+
+function drawRoomWallH(g, x, y) {
+  const a = iso(x, y), b = iso(x + 1, y);
+  g.fillStyle = '#b79a70'; g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y);
+  g.lineTo(b.x, b.y - 8); g.lineTo(a.x, a.y - 8); g.closePath(); g.fill();
 }

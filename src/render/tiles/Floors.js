@@ -1,11 +1,11 @@
-import { IN } from '../../core/constants.js';
-import { PATH_TILES } from '../../config/map.js';
+import { IN, W, H } from '../../core/constants.js';
+import { PATH_TILES, ROADS } from '../../config/map.js';
 import { iso } from '../../world/Iso.js';
 import { hsh, lerp } from '../../core/utils.js';
 import { tileDiamond } from '../helpers.js';
 
 export function drawFloors(g, state) {
-  for (let y = 0; y < 14; y++) for (let x = 0; x < 18; x++) {
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
     const h1 = hsh(x, y);
     const inside = x >= IN.x0 && x <= IN.x1 && y >= IN.y0 && y <= IN.y1;
     tileDiamond(g, x, y);
@@ -21,8 +21,8 @@ export function drawFloors(g, state) {
         g.lineTo(lerp(l.x, b.x, t), lerp(l.y, b.y, t));
         g.stroke();
       }
-    } else if (PATH_TILES.has(x + ',' + y) || (x === 7 && y === 9)) {
-      g.fillStyle = `hsl(90,8%,${48 + h1 * 8}%)`; g.fill();
+    } else if (ROADS.has(x + ',' + y) || PATH_TILES.has(x + ',' + y) || (x === 7 && y === 9)) {
+      g.fillStyle = ROADS.has(x + ',' + y) ? '#8d8068' : `hsl(90,8%,${48 + h1 * 8}%)`; g.fill();
       g.strokeStyle = 'rgba(0,0,0,.18)'; g.lineWidth = 1.5; g.stroke();
     } else {
       g.fillStyle = `hsl(${100 + h1 * 16},38%,${26 + h1 * 7}%)`; g.fill();
